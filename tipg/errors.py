@@ -95,7 +95,7 @@ def exception_handler_factory(status_code: int) -> Callable:
     """
 
     def handler(request: Request, exc: Exception):
-        logger.exception(exc)
+        logger.error(str(exc))
         return JSONResponse(content={"detail": str(exc)}, status_code=status_code)
 
     return handler
