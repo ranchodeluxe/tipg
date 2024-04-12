@@ -79,9 +79,11 @@ async def connect_to_db(
     **kwargs,
 ) -> None:
     """Connect."""
+    logger.error(f"[ CONNECT_TO_DB ]: {settings}")
     if not settings:
         settings = PostgresSettings()
 
+    logger.error(f"[ CONNECTION FACTORY ]")
     con_init = connection_factory(schemas, user_sql_files)
 
     app.state.pool = await asyncpg.create_pool_b(
