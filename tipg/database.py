@@ -32,11 +32,14 @@ class connection_factory:
         user_sql_files: Optional[List[pathlib.Path]] = None,
     ) -> None:
         """Init."""
+        logger.error(f"[ INIT ]")
         self.schemas = schemas or []
         self.user_sql_files = user_sql_files or []
 
     async def __call__(self, conn: asyncpg.Connection):
         """Create connection."""
+        logger.error(f"[ CALL ]: {conn}")
+
         await conn.set_type_codec(
             "json", encoder=orjson.dumps, decoder=orjson.loads, schema="pg_catalog"
         )
@@ -47,7 +50,7 @@ class connection_factory:
         # Note: we add `pg_temp as the first element of the schemas list to make sure
         # we register the custom functions and `dbcatalog` in it.
         schemas = ",".join(["pg_temp", *self.schemas])
-        logger.debug(f"Looking for Tables and Functions in {schemas} schemas")
+        logger.error(f"Looking for Tables and Functions in {schemas} schemas")
 
         await conn.execute(
             f"""
@@ -64,6 +67,7 @@ class connection_factory:
             await conn.execute(sqlfile.read_text())
 
         # Register TiPG functions in `pg_temp`
+        logger.error(f"[ EXECUTE ]: {DB_CATALOG_FILE}")
         await conn.execute(DB_CATALOG_FILE.read_text())
 
 
