@@ -941,6 +941,7 @@ async def get_collection_index(  # noqa: C901
         fallback_key_names = table_settings.fallback_key_names
 
         for row in rows:
+            logger.error(f"[ ROW ]: {row}")
             table = row[0]
             table_id = table["schema"] + "." + table["name"]
             confid = table["schema"] + "_" + table["name"]
@@ -980,6 +981,7 @@ async def get_collection_index(  # noqa: C901
                     if table_conf.geomcol == c["name"] or geometry_column is None:
                         geometry_column = c
 
+            logger.error(f"[ TABLE ]: {table}")
             catalog[table_id] = Collection(
                 type=table["entity"],
                 id=table_id,
