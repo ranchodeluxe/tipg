@@ -79,7 +79,7 @@ async def connect_to_db(
     **kwargs,
 ) -> None:
     """Connect."""
-    logger.error(f"[ CONNECT_TO_DB ]: {settings}")
+    logger.error(f"[ CONNECT_TO_DB ]")
     if not settings:
         settings = PostgresSettings()
 
@@ -95,6 +95,7 @@ async def connect_to_db(
         init=con_init,
         **kwargs,
     )
+    logger.error(f"[ APP STATE POOL SET ]")
 
 
 async def close_db_connection(app: FastAPI) -> None:
