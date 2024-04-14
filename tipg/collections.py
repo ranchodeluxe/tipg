@@ -1000,3 +1000,4 @@ async def get_collection_index(  # noqa: C901
 async def register_collection_catalog(app: FastAPI, **kwargs: Any) -> None:
     """Register Table catalog."""
     app.state.collection_catalog = await get_collection_index(app.state.pool, **kwargs)
+    logger.error(f"[ SET APP.STATE.COLLECTIONS ]: {app.state}")
