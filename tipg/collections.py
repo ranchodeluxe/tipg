@@ -905,6 +905,10 @@ async def get_collection_index(  # noqa: C901
     """Fetch Table and Functions index."""
     schemas = schemas or ["public"]
 
+    async with db_pool.acquire() as conn:
+        rows = await conn.fetch_b("SELECT nspname FROM pg_proc JOIN pg_namespace ON pg_namespace.oid = pg_proc.pronamespace GROUP BY nspname;")
+        logger.error(f"[ SCHEMAS ]: {rows}")
+
     query = """
         SELECT pg_temp.tipg_catalog(
             :schemas,
