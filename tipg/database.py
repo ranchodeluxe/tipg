@@ -79,7 +79,7 @@ async def connect_to_db(
     **kwargs,
 ) -> None:
     """Connect."""
-    logger.error(f"[ CONNECT_TO_DB ]")
+    logger.error(f"[ CONNECT_TO_DB ]: {settings}")
     if not settings:
         settings = PostgresSettings()
 
